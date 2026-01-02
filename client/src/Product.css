@@ -17,4 +17,5 @@ button {
     color: #fff;
     font-size: large;
     font-weight: 600;
+    cursor: pointer;
 }
