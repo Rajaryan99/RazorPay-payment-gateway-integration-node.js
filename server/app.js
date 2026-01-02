@@ -25,8 +25,9 @@ app.post('/order', async (req, res) => {
     });
 
     const options = req.body;
+    console.log(req.body)
     const order = await razerpay.orders.create(options);
-    console.log(order);
+    // console.log(order);
     res.send(order)
 
     if(!order){
@@ -37,6 +38,19 @@ app.post('/order', async (req, res) => {
         console.log(error)
     }
    
+})
+
+app.post('/order/validate', (req, res) => {
+    const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
+
+    generated_signature = hmac_sha256(azorpay_order_id + "|" + razorpay_payment_id, process.env.TEST_SECRET_KEY);
+
+    if (generated_signature == razorpay_signature) {
+    res.send("payment is successful")
+     } else {
+        res.send("Invalid payment")
+     }
+
 })
 
 app.listen(process.env.PORT, () => {
