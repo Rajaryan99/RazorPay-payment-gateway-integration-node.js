@@ -31,10 +31,22 @@ export default function Product() {
     "description": "Test Transaction",
     "image": "https://example.com/your_logo",
     "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
+    "handler": async function (response){
+        const body = {
+          ...response,
+        };
+
+       const validateRES =  await fetch("http://localhost:5000/order/validate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify(body)
+        })
+
+        const val = await  validateRES.json();
+        console.log(val);
     },
     "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
         "name": "Raj Aryan", //your customer's name
